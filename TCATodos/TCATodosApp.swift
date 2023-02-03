@@ -33,11 +33,11 @@ struct TCATodosApp: App {
                             ),
                         ]
                     ),
-                    reducer: AppReducer(
-                        mainQueue: DispatchQueue.main.eraseToAnyScheduler(),
-                        uuid: UUID.init
-                    )
-                )
+                    reducer: AppReducer()
+                ) {
+                    $0.mainQueue = DispatchQueue.main.eraseToAnyScheduler()
+                    $0.uuid = UUIDGenerator { UUID() }
+                }
             )
         }
     }

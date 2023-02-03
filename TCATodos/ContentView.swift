@@ -44,9 +44,9 @@ struct AppReducer: ReducerProtocol {
         case todo(id: Todo.State.ID, action: Todo.Action)
         case todoDelayCompleted
     }
-    
-    let mainQueue: AnySchedulerOf<DispatchQueue>
-    let uuid: () -> UUID
+   
+    @Dependency(\.mainQueue) var mainQueue
+    @Dependency(\.uuid) var uuid
     
     var body: some ReducerProtocol<State, Action> {
         Reduce { state, action in
@@ -147,11 +147,11 @@ struct ContentView_Previews: PreviewProvider {
                         ),
                     ]
                 ),
-                reducer: AppReducer(
-                    mainQueue: DispatchQueue.main.eraseToAnyScheduler(),
-                    uuid: UUID.init
-                )
-            )
+                reducer: AppReducer()
+            ) {
+                $0.mainQueue = DispatchQueue.main.eraseToAnyScheduler()
+                $0.uuid = UUIDGenerator { UUID() }
+            }
         )
     }
 }

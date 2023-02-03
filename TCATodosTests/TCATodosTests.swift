@@ -23,11 +23,10 @@ final class TCATodosTests: XCTestCase {
                     )
                 ]
             ),
-            reducer: AppReducer(
-                mainQueue: scheduler.eraseToAnyScheduler(),
-                uuid: { fatalError("Unimplemented") }
-            )
-        )
+            reducer: AppReducer()
+        ) {
+            $0.mainQueue = scheduler.eraseToAnyScheduler()
+        }
         
         await store.send(.todo(id: UUID(uuidString: "00000000-0000-0000-0000-000000000000")!, action: .checkboxTapped)) {
             $0.todos[0].isComplete = true
@@ -39,11 +38,10 @@ final class TCATodosTests: XCTestCase {
     func testAddTodo() async {
         let store = TestStore(
             initialState: AppReducer.State(todos: []),
-            reducer: AppReducer(
-                mainQueue: scheduler.eraseToAnyScheduler(),
-                uuid: { UUID(uuidString: "DEADBEEF-DEAD-BEEF-DEAD-DEADBEEFDEAD")! }
-            )
-        )
+            reducer: AppReducer()
+        ) {
+            $0.uuid = UUIDGenerator.constant(UUID(uuidString: "DEADBEEF-DEAD-BEEF-DEAD-DEADBEEFDEAD")!)
+        }
         
         await store.send(.addButtonTapped) {
             $0.todos = [
@@ -72,11 +70,10 @@ final class TCATodosTests: XCTestCase {
                     ),
                 ]
             ),
-            reducer: AppReducer(
-                mainQueue: scheduler.eraseToAnyScheduler(),
-                uuid: { fatalError("Unimplemented") }
-            )
-        )
+            reducer: AppReducer()
+        ) {
+            $0.mainQueue = scheduler.eraseToAnyScheduler()
+        }
         
         await store.send(.todo(id: UUID(uuidString: "00000000-0000-0000-0000-000000000000")!, action: .checkboxTapped)) {
             $0.todos[0].isComplete = true
@@ -114,11 +111,10 @@ final class TCATodosTests: XCTestCase {
                     ),
                 ]
             ),
-            reducer: AppReducer(
-                mainQueue: scheduler.eraseToAnyScheduler(),
-                uuid: { fatalError("Unimplemented") }
-            )
-        )
+            reducer: AppReducer()
+        ) {
+            $0.mainQueue = scheduler.eraseToAnyScheduler()
+        }
 
         await store.send(.todo(id: UUID(uuidString: "00000000-0000-0000-0000-000000000000")!, action: .checkboxTapped)) {
             $0.todos[0].isComplete = true
