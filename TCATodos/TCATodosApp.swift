@@ -14,27 +14,26 @@ struct TCATodosApp: App {
         WindowGroup {
             ContentView(
                 store: Store(
-                    initialState: AppState(
+                    initialState: AppReducer.State(
                         todos: [
-                            Todo(
+                            Todo.State(
                                 id: UUID(),
                                 description: "Milk",
                                 isComplete: false
                             ),
-                            Todo(
+                            Todo.State(
                                 id: UUID(),
                                 description: "Eggs",
                                 isComplete: false
                             ),
-                            Todo(
+                            Todo.State(
                                 id: UUID(),
                                 description: "Hand Soap",
                                 isComplete: true
                             ),
                         ]
                     ),
-                    reducer: appReducer,
-                    environment: AppEnvironment(
+                    reducer: AppReducer(
                         mainQueue: DispatchQueue.main.eraseToAnyScheduler(),
                         uuid: UUID.init
                     )

@@ -9,91 +9,82 @@ import SwiftUI
 import ComposableArchitecture
 import Combine
 
-struct Todo: Equatable, Identifiable {
-    let id: UUID
-    var description = ""
-    var isComplete = false
-}
-
-enum TodoAction: Equatable {
-    case checkboxTapped
-    case textFieldChanged(String)
-}
-
-struct TodoEnvironment {
-}
-
-let todoReducer = AnyReducer<Todo, TodoAction, TodoEnvironment>{ state, action, environment in
-    switch action {
-    case .checkboxTapped:
-        state.isComplete.toggle()
-        return .none
-    case .textFieldChanged(let text):
-        state.description = text
-        return .none
+struct Todo: ReducerProtocol {
+    struct State: Equatable, Identifiable {
+        let id: UUID
+        var description = ""
+        var isComplete = false
     }
-}
-
-struct AppState: Equatable{
-    var todos: [Todo]
-}
-
-enum AppAction: Equatable {
-    case addButtonTapped
-    case todo(index: Int, action: TodoAction)
-    case todoDelayCompleted
-}
-
-struct AppEnvironment {
-    var mainQueue: AnySchedulerOf<DispatchQueue>
-    var uuid: () -> UUID
-}
-
-
-let appReducer = AnyReducer<AppState, AppAction, AppEnvironment>.combine(
-    todoReducer.forEach(
-        state: \AppState.todos,
-        action: /AppAction.todo(index:action:),
-        environment: { _ in TodoEnvironment() }
-    ),
-    AnyReducer { state, action, environment in
+    
+    enum Action: Equatable {
+        case checkboxTapped
+        case textFieldChanged(String)
+    }
+    
+    func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
         switch action {
-        case .addButtonTapped:
-            state.todos.insert(Todo(id: environment.uuid()), at: 0)
+        case .checkboxTapped:
+            state.isComplete.toggle()
             return .none
-            
-        case .todo(index: _, action: .checkboxTapped):
-            struct CancelDelayId: Hashable {}
-            
-            return Effect(value: AppAction.todoDelayCompleted)
-                .debounce(id: CancelDelayId(), for: .seconds(1), scheduler: environment.mainQueue)
-            
-        case .todo(index: let index, action: let action):
-            return .none
-        case .todoDelayCompleted:
-            state.todos = state.todos
-                .enumerated()
-                .sorted { lhs, rhs in
-                    (!lhs.element.isComplete && rhs.element.isComplete)
-                    || lhs.offset < rhs.offset
-                }
-                .map(\.element)
+        case .textFieldChanged(let text):
+            state.description = text
             return .none
         }
     }
-)
-.debug()
+}
 
+
+struct AppReducer: ReducerProtocol {
+    struct State: Equatable{
+        var todos: IdentifiedArrayOf<Todo.State>
+    }
+    
+    enum Action: Equatable {
+        case addButtonTapped
+        case todo(id: Todo.State.ID, action: Todo.Action)
+        case todoDelayCompleted
+    }
+    
+    let mainQueue: AnySchedulerOf<DispatchQueue>
+    let uuid: () -> UUID
+    
+    var body: some ReducerProtocol<State, Action> {
+        Reduce { state, action in
+            switch action {
+            case .addButtonTapped:
+                state.todos.insert(Todo.State(id: uuid()), at: 0)
+                return .none
+                
+            case .todo(id: _, action: .checkboxTapped):
+                struct CancelDelayId: Hashable {}
+                
+                return EffectTask(value: .todoDelayCompleted)
+                    .debounce(id: CancelDelayId(), for: .seconds(1), scheduler: mainQueue)
+                
+            case .todo(id: _, action: _):
+                return .none
+                
+            case .todoDelayCompleted:
+                state.todos
+                    .sort { !$0.isComplete && $1.isComplete }
+                return .none
+            }
+        }
+        .forEach(\.todos, action: /Action.todo) {
+            Todo()
+        }
+    }
+}
 
 struct ContentView: View {
-    let store: Store<AppState, AppAction>
+    let store: StoreOf<AppReducer>
     
     var body: some View {
         NavigationView {
             WithViewStore(self.store) { viewStore in
                 List {
                     ForEachStore(
-                        self.store.scope(state: \.todos, action: AppAction.todo(index:action:)),
+                        self.store.scope(state: \.todos, action: AppReducer.Action.todo(id:action:)),
                         content: TodoView.init(store:)
                     )
                 }
@@ -111,7 +102,7 @@ struct ContentView: View {
 }
 
 struct TodoView: View {
-    let store: Store<Todo, TodoAction>
+    let store: StoreOf<Todo>
     
     var body: some View {
         WithViewStore(self.store) { viewStore in
@@ -124,7 +115,7 @@ struct TodoView: View {
                     "Untitled todo",
                     text: viewStore.binding(
                         get: \.description,
-                        send: TodoAction.textFieldChanged
+                        send: Todo.Action.textFieldChanged
                     )
                 )
             }
@@ -137,27 +128,26 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView(
             store: Store(
-                initialState: AppState(
+                initialState: AppReducer.State(
                     todos: [
-                        Todo(
+                        Todo.State(
                             id: UUID(),
                             description: "Milk",
                             isComplete: false
                         ),
-                        Todo(
+                        Todo.State(
                             id: UUID(),
                             description: "Eggs",
                             isComplete: false
                         ),
-                        Todo(
+                        Todo.State(
                             id: UUID(),
                             description: "Hand Soap",
                             isComplete: true
                         ),
                     ]
                 ),
-                reducer: appReducer,
-                environment: AppEnvironment(
+                reducer: AppReducer(
                     mainQueue: DispatchQueue.main.eraseToAnyScheduler(),
                     uuid: UUID.init
                 )
