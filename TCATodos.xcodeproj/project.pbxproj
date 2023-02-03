@@ -11,7 +11,19 @@
 		087A80CC298AA4DA005209E1 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 087A80CB298AA4DA005209E1 /* ContentView.swift */; };
 		087A80CE298AA4DB005209E1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 087A80CD298AA4DB005209E1 /* Assets.xcassets */; };
 		087A80D1298AA4DB005209E1 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 087A80D0298AA4DB005209E1 /* Preview Assets.xcassets */; };
+		087A80DE298AA52E005209E1 /* TCATodosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 087A80DD298AA52E005209E1 /* TCATodosTests.swift */; };
+		087A80E6298AA60A005209E1 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 087A80E5298AA60A005209E1 /* ComposableArchitecture */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		087A80DF298AA52E005209E1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 087A80BE298AA4DA005209E1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 087A80C5298AA4DA005209E1;
+			remoteInfo = TCATodos;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		087A80C6298AA4DA005209E1 /* TCATodos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TCATodos.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -19,10 +31,20 @@
 		087A80CB298AA4DA005209E1 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		087A80CD298AA4DB005209E1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		087A80D0298AA4DB005209E1 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		087A80DB298AA52E005209E1 /* TCATodosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TCATodosTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		087A80DD298AA52E005209E1 /* TCATodosTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCATodosTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		087A80C3298AA4DA005209E1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				087A80E6298AA60A005209E1 /* ComposableArchitecture in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		087A80D8298AA52E005209E1 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -36,6 +58,7 @@
 			isa = PBXGroup;
 			children = (
 				087A80C8298AA4DA005209E1 /* TCATodos */,
+				087A80DC298AA52E005209E1 /* TCATodosTests */,
 				087A80C7298AA4DA005209E1 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -44,6 +67,7 @@
 			isa = PBXGroup;
 			children = (
 				087A80C6298AA4DA005209E1 /* TCATodos.app */,
+				087A80DB298AA52E005209E1 /* TCATodosTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -67,6 +91,14 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		087A80DC298AA52E005209E1 /* TCATodosTests */ = {
+			isa = PBXGroup;
+			children = (
+				087A80DD298AA52E005209E1 /* TCATodosTests.swift */,
+			);
+			path = TCATodosTests;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -83,9 +115,30 @@
 			dependencies = (
 			);
 			name = TCATodos;
+			packageProductDependencies = (
+				087A80E5298AA60A005209E1 /* ComposableArchitecture */,
+			);
 			productName = TCATodos;
 			productReference = 087A80C6298AA4DA005209E1 /* TCATodos.app */;
 			productType = "com.apple.product-type.application";
+		};
+		087A80DA298AA52E005209E1 /* TCATodosTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 087A80E1298AA52E005209E1 /* Build configuration list for PBXNativeTarget "TCATodosTests" */;
+			buildPhases = (
+				087A80D7298AA52E005209E1 /* Sources */,
+				087A80D8298AA52E005209E1 /* Frameworks */,
+				087A80D9298AA52E005209E1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				087A80E0298AA52E005209E1 /* PBXTargetDependency */,
+			);
+			name = TCATodosTests;
+			productName = TCATodosTests;
+			productReference = 087A80DB298AA52E005209E1 /* TCATodosTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -100,6 +153,10 @@
 					087A80C5298AA4DA005209E1 = {
 						CreatedOnToolsVersion = 14.2;
 					};
+					087A80DA298AA52E005209E1 = {
+						CreatedOnToolsVersion = 14.2;
+						TestTargetID = 087A80C5298AA4DA005209E1;
+					};
 				};
 			};
 			buildConfigurationList = 087A80C1298AA4DA005209E1 /* Build configuration list for PBXProject "TCATodos" */;
@@ -111,11 +168,15 @@
 				Base,
 			);
 			mainGroup = 087A80BD298AA4DA005209E1;
+			packageReferences = (
+				087A80E4298AA60A005209E1 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
+			);
 			productRefGroup = 087A80C7298AA4DA005209E1 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				087A80C5298AA4DA005209E1 /* TCATodos */,
+				087A80DA298AA52E005209E1 /* TCATodosTests */,
 			);
 		};
 /* End PBXProject section */
@@ -127,6 +188,13 @@
 			files = (
 				087A80D1298AA4DB005209E1 /* Preview Assets.xcassets in Resources */,
 				087A80CE298AA4DB005209E1 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		087A80D9298AA52E005209E1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -142,7 +210,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		087A80D7298AA52E005209E1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				087A80DE298AA52E005209E1 /* TCATodosTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		087A80E0298AA52E005209E1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 087A80C5298AA4DA005209E1 /* TCATodos */;
+			targetProxy = 087A80DF298AA52E005209E1 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		087A80D2298AA4DB005209E1 /* Debug */ = {
@@ -317,6 +401,42 @@
 			};
 			name = Release;
 		};
+		087A80E2298AA52E005209E1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 5EMC6RK8V9;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.phucledien.TCATodosTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TCATodos.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TCATodos";
+			};
+			name = Debug;
+		};
+		087A80E3298AA52E005209E1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 5EMC6RK8V9;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.phucledien.TCATodosTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TCATodos.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TCATodos";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -338,7 +458,35 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		087A80E1298AA52E005209E1 /* Build configuration list for PBXNativeTarget "TCATodosTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				087A80E2298AA52E005209E1 /* Debug */,
+				087A80E3298AA52E005209E1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		087A80E4298AA60A005209E1 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.9.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		087A80E5298AA60A005209E1 /* ComposableArchitecture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 087A80E4298AA60A005209E1 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
+			productName = ComposableArchitecture;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 087A80BE298AA4DA005209E1 /* Project object */;
 }
